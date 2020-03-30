@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.someray.myfirstapp.mqtt.Mqtt;
+import com.someray.myfirstapp.mqtt.MyService;
+
 import java.util.HashSet;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,14 +21,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        Mqtt.getInstance(getApplicationContext()).connect();
+        MyService.startService(this);
     }
 
     public void sendMessage(View view){
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+        MyService.publish(message);
+//        intent.putExtra(EXTRA_MESSAGE, message);
+//        startActivity(intent);
     }
     private void initData() {
         mData.clear();
